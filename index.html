@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YANKEE HELLS - Connecter votre bot WhatsApp</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-skull"></i>
+                <h1>YANKEE <span>HELLS</span></h1>
+            </div>
+            <div class="badge">V3 - MASERATI MD</div>
+        </div>
+
+        <!-- Multi-User Info -->
+        <div class="info-card">
+            <i class="fas fa-users"></i>
+            <div>
+                <strong>Connexions multiples</strong>
+                <p>Chaque utilisateur a sa propre session indépendante</p>
+            </div>
+        </div>
+
+        <!-- User ID Section -->
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-user-secret"></i>
+                <h2>Identifiant unique</h2>
+                <p>Générez ou entrez votre ID personnel</p>
+            </div>
+            
+            <div class="user-id-section">
+                <input type="text" id="userId" placeholder="Votre ID unique" readonly>
+                <button id="generateIdBtn" class="secondary-btn">
+                    <i class="fas fa-random"></i> Générer ID
+                </button>
+            </div>
+            
+            <div class="saved-id" id="savedIdAlert" style="display: none;">
+                <i class="fas fa-check-circle"></i>
+                <span>ID sauvegardé dans votre navigateur</span>
+            </div>
+        </div>
+
+        <!-- Main Card -->
+        <div class="card" id="mainCard" style="display: none;">
+            <div class="card-header">
+                <i class="fas fa-bolt"></i>
+                <h2>Connectez votre Bot WhatsApp</h2>
+                <p>Association sécurisée • 24h/24 7j/7 sur le cloud</p>
+            </div>
+
+            <!-- Method Selection -->
+            <div class="method-selector">
+                <button class="method-btn active" data-method="pairing">
+                    <i class="fas fa-key"></i> Code d'appariement
+                </button>
+                <button class="method-btn" data-method="qr">
+                    <i class="fas fa-qrcode"></i> Code QR
+                </button>
+            </div>
+
+            <!-- Pairing Method -->
+            <div id="pairingMethod" class="method-content active">
+                <div class="input-group">
+                    <label><i class="fas fa-phone-alt"></i> Numéro de téléphone</label>
+                    <div class="phone-input">
+                        <span class="country-code">+225</span>
+                        <input type="tel" id="phoneNumber" placeholder="58 52 56 740">
+                    </div>
+                </div>
+                <button id="pairBtn" class="action-btn">
+                    <i class="fas fa-link"></i> APPARIEMENT
+                </button>
+                <div id="pairingResult" class="result-box hidden"></div>
+                <div id="pairingCodeDisplay" class="pairing-code-box hidden">
+                    <i class="fas fa-key"></i>
+                    <span id="pairingCodeValue"></span>
+                    <button id="copyPairingCode" class="copy-btn"><i class="fas fa-copy"></i></button>
+                </div>
+            </div>
+
+            <!-- QR Method -->
+            <div id="qrMethod" class="method-content">
+                <div class="qr-container">
+                    <div id="qrCodeDisplay" class="qr-placeholder">
+                        <i class="fas fa-qrcode"></i>
+                        <p>Cliquez pour générer</p>
+                    </div>
+                    <button id="generateQrBtn" class="action-btn secondary">
+                        <i class="fas fa-sync-alt"></i> Générer QR Code
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Session Status -->
+        <div class="status-card" id="statusCard" style="display: none;">
+            <div class="status-header">
+                <i class="fas fa-circle" id="statusDot"></i>
+                <span id="statusText">Session inactive</span>
+                <button id="deleteSessionBtn" class="delete-btn">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+            <div class="status-info">
+                <div class="info-item">
+                    <i class="fas fa-user"></i>
+                    <span id="sessionUser">-</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <span id="sessionTime">-</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-links">
+            <a href="#" class="link-item"><i class="fab fa-whatsapp"></i> Chaine WA</a>
+            <a href="#" class="link-item"><i class="fab fa-whatsapp"></i> Groupe WA</a>
+            <a href="#" class="link-item"><i class="fab fa-github"></i> GitHub</a>
+        </div>
+        <div class="footer">
+            <p>© 2024 YANKEE HELLS - MASERATI MD</p>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loader"></div>
+        <p>Connexion en cours...</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
