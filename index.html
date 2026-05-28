@@ -3,23 +3,433 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>YANKEE HELLS - Connecter votre bot WhatsApp</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>YANKEE HELLS - Connexion WhatsApp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+        }
+
+        .logo h1 {
+            font-size: 30px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #ff4757);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 71, 87, 0.2);
+            border: 1px solid #ff4757;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #ff4757;
+        }
+
+        .info-card {
+            background: rgba(52, 152, 219, 0.1);
+            border: 1px solid #3498db;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-card i {
+            font-size: 30px;
+            color: #3498db;
+        }
+
+        .info-card strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .info-card p {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .card-header i {
+            font-size: 35px;
+            color: #ff4757;
+            margin-bottom: 10px;
+        }
+
+        .card-header h2 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .user-id-section {
+            display: flex;
+            gap: 10px;
+        }
+
+        .user-id-section input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+            color: white;
+            font-size: 14px;
+            font-family: monospace;
+            outline: none;
+        }
+
+        .secondary-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 20px;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .secondary-btn:hover {
+            background: rgba(255, 71, 87, 0.2);
+            border-color: #ff4757;
+        }
+
+        .saved-id {
+            margin-top: 12px;
+            padding: 10px;
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 10px;
+            font-size: 12px;
+            color: #2ecc71;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .method-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 5px;
+            border-radius: 50px;
+        }
+
+        .method-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px;
+            border-radius: 40px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .method-btn.active {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+        }
+
+        .method-content {
+            display: none;
+        }
+
+        .method-content.active {
+            display: block;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .phone-input {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .country-code {
+            background: rgba(255, 71, 87, 0.2);
+            padding: 12px 15px;
+            font-weight: 600;
+            color: #ff4757;
+        }
+
+        .phone-input input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px 15px;
+            color: white;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .action-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .action-btn.secondary {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .result-box.success {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid #2ecc71;
+            color: #2ecc71;
+        }
+
+        .result-box.error {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+        }
+
+        .result-box.hidden {
+            display: none;
+        }
+
+        .pairing-code-box {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 71, 87, 0.1);
+            border: 2px solid #ff4757;
+            border-radius: 15px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .pairing-code-box.hidden {
+            display: none;
+        }
+
+        .pairing-code-box span {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 5px;
+            font-family: monospace;
+            color: #ff4757;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid #ff4757;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: #ff4757;
+            cursor: pointer;
+        }
+
+        .qr-placeholder {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-placeholder i {
+            font-size: 60px;
+            color: #ff4757;
+        }
+
+        .status-card {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        #statusDot {
+            font-size: 12px;
+            color: #e74c3c;
+        }
+
+        .delete-btn {
+            margin-left: auto;
+            background: rgba(231, 76, 60, 0.2);
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            color: #e74c3c;
+            cursor: pointer;
+        }
+
+        .status-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 18px;
+            border-radius: 30px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .loading-overlay.hidden {
+            display: none;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 71, 87, 0.3);
+            border-top-color: #ff4757;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <div class="header">
             <div class="logo">
-                <i class="fas fa-skull"></i>
                 <h1>YANKEE <span>HELLS</span></h1>
             </div>
             <div class="badge">V3 - MASERATI MD</div>
         </div>
 
-        <!-- Multi-User Info -->
         <div class="info-card">
             <i class="fas fa-users"></i>
             <div>
@@ -28,7 +438,6 @@
             </div>
         </div>
 
-        <!-- User ID Section -->
         <div class="card">
             <div class="card-header">
                 <i class="fas fa-user-secret"></i>
@@ -49,7 +458,6 @@
             </div>
         </div>
 
-        <!-- Main Card (connexion) -->
         <div id="mainCard" class="card" style="display: none;">
             <div class="card-header">
                 <i class="fas fa-bolt"></i>
@@ -98,7 +506,6 @@
             </div>
         </div>
 
-        <!-- Status Card -->
         <div id="statusCard" class="status-card" style="display: none;">
             <div class="status-header">
                 <i class="fas fa-circle" id="statusDot"></i>
@@ -119,7 +526,6 @@
             </div>
         </div>
 
-        <!-- Footer -->
         <div class="footer-links">
             <a href="https://whatsapp.com/channel/0029Vb7xYNO84OmK7L02eq3v" target="_blank" class="link-item">
                 <i class="fab fa-whatsapp"></i> Chaine WA
@@ -142,11 +548,21 @@
     </div>
 
     <script>
-        // SCRIPT COMPLET INTÉGRÉ (pas besoin de fichier externe)
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('✅ Script YANKEE HELLS chargé');
+        (function() {
+            // Fonctions
+            function generateUserId() {
+                return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
+            }
             
-            // ========== ÉLÉMENTS ==========
+            function showResult(element, message, type) {
+                if (element) {
+                    element.innerHTML = (type === 'success' ? '✅ ' : '❌ ') + message;
+                    element.classList.remove('hidden');
+                    setTimeout(() => element.classList.add('hidden'), 4000);
+                }
+            }
+            
+            // Récupération des éléments
             const userIdInput = document.getElementById('userId');
             const generateBtn = document.getElementById('generateIdBtn');
             const savedAlert = document.getElementById('savedIdAlert');
@@ -160,179 +576,55 @@
             const pairingCodeValue = document.getElementById('pairingCodeValue');
             const copyCodeBtn = document.getElementById('copyPairingCode');
             const qrDisplay = document.getElementById('qrCodeDisplay');
-            const deleteSessionBtn = document.getElementById('deleteSessionBtn');
+            const deleteBtn = document.getElementById('deleteSessionBtn');
+            const loadingOverlay = document.getElementById('loadingOverlay');
             const statusDot = document.getElementById('statusDot');
             const statusText = document.getElementById('statusText');
-            const sessionUserSpan = document.getElementById('sessionUser');
-            const sessionTimeSpan = document.getElementById('sessionTime');
-            const loadingOverlay = document.getElementById('loadingOverlay');
+            const sessionUser = document.getElementById('sessionUser');
+            const sessionTime = document.getElementById('sessionTime');
             
-            // ========== FONCTIONS ==========
-            function generateUserId() {
-                return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
-            }
-            
-            function showLoading(show) {
-                if (loadingOverlay) {
-                    if (show) loadingOverlay.classList.remove('hidden');
-                    else loadingOverlay.classList.add('hidden');
-                }
-            }
-            
-            function showResult(message, type) {
-                if (pairingResult) {
-                    pairingResult.innerHTML = '<i class="fas ' + (type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle') + '"></i> ' + message;
-                    pairingResult.classList.remove('hidden');
-                    setTimeout(() => pairingResult.classList.add('hidden'), 4000);
-                }
-            }
-            
-            function displayPairingCode(code) {
-                if (pairingCodeValue) pairingCodeValue.textContent = code;
-                if (pairingCodeDisplay) pairingCodeDisplay.classList.remove('hidden');
-            }
-            
-            function displayQR(qrData) {
-                if (qrDisplay) {
-                    qrDisplay.innerHTML = '<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(qrData) + '" style="width:200px;height:200px">';
-                }
-            }
-            
-            function updateStatus(status, message) {
-                if (statusDot && statusText) {
-                    if (status === 'connected') {
-                        statusDot.style.color = '#2ecc71';
-                        statusText.textContent = message || 'Connecté ✅';
-                    } else if (status === 'connecting') {
-                        statusDot.style.color = '#f39c12';
-                        statusText.textContent = message || 'Connexion...';
-                    } else {
-                        statusDot.style.color = '#e74c3c';
-                        statusText.textContent = message || 'Hors ligne';
-                    }
-                }
-            }
-            
-            // ========== GÉNÉRER ID ==========
+            // Générer ID
             if (generateBtn) {
-                generateBtn.addEventListener('click', function() {
+                generateBtn.onclick = function() {
                     const newId = generateUserId();
                     if (userIdInput) userIdInput.value = newId;
                     localStorage.setItem('yankee_hells_user_id', newId);
                     
-                    if (savedAlert) {
-                        savedAlert.style.display = 'flex';
-                        setTimeout(() => savedAlert.style.display = 'none', 3000);
-                    }
+                    if (savedAlert) savedAlert.style.display = 'flex';
+                    setTimeout(() => { if (savedAlert) savedAlert.style.display = 'none'; }, 3000);
                     
                     if (mainCard) mainCard.style.display = 'block';
                     if (statusCard) statusCard.style.display = 'block';
                     
-                    showResult('ID généré ! Connectez votre bot ci-dessous', 'success');
-                });
+                    if (pairingResult) showResult(pairingResult, 'ID généré ! Connectez votre bot', 'success');
+                };
             }
             
-            // ========== CHARGER ID EXISTANT ==========
+            // Charger ID existant
             const savedId = localStorage.getItem('yankee_hells_user_id');
             if (savedId && userIdInput) {
                 userIdInput.value = savedId;
                 if (mainCard) mainCard.style.display = 'block';
                 if (statusCard) statusCard.style.display = 'block';
+                if (statusDot) statusDot.style.color = '#2ecc71';
+                if (statusText) statusText.textContent = 'Session active';
+                if (sessionUser) sessionUser.textContent = savedId.substring(0, 20) + '...';
+                if (sessionTime) sessionTime.textContent = new Date().toLocaleString();
             }
             
-            // ========== PAIRING CODE ==========
+            // Appariement
             if (pairBtn) {
-                pairBtn.addEventListener('click', function() {
+                pairBtn.onclick = function() {
                     let phone = phoneInput ? phoneInput.value.trim() : '';
                     if (!phone) {
-                        showResult('Entrez votre numéro de téléphone', 'error');
+                        if (pairingResult) showResult(pairingResult, 'Entrez votre numéro', 'error');
                         return;
                     }
                     
                     phone = phone.replace(/[^0-9]/g, '');
                     if (!phone.startsWith('225')) phone = '225' + phone;
                     
-                    showLoading(true);
+                    if (loadingOverlay) loadingOverlay.classList.remove('hidden');
                     
-                    // Simulation d'appel API (à remplacer par ton vrai endpoint)
-                    setTimeout(() => {
-                        showLoading(false);
-                        const code = Math.floor(100000 + Math.random() * 900000);
-                        displayPairingCode(code);
-                        updateStatus('connecting', 'Code envoyé');
-                        showResult('Code d\'appariement généré !', 'success');
-                    }, 1500);
-                });
-            }
-            
-            // ========== QR CODE ==========
-            if (qrBtn) {
-                qrBtn.addEventListener('click', function() {
-                    showLoading(true);
-                    
-                    setTimeout(() => {
-                        showLoading(false);
-                        displayQR('YANKEE_HELLS_BOT_' + Date.now());
-                        updateStatus('waiting_qr', 'Scannez le QR code');
-                        showResult('QR Code généré ! Scannez avec WhatsApp', 'success');
-                    }, 1000);
-                });
-            }
-            
-            // ========== COPIER CODE ==========
-            if (copyCodeBtn) {
-                copyCodeBtn.addEventListener('click', function() {
-                    const code = pairingCodeValue ? pairingCodeValue.textContent : '';
-                    if (code) {
-                        navigator.clipboard.writeText(code);
-                        showResult('Code copié !', 'success');
-                    }
-                });
-            }
-            
-            // ========== SUPPRIMER SESSION ==========
-            if (deleteSessionBtn) {
-                deleteSessionBtn.addEventListener('click', function() {
-                    if (confirm('⚠️ Supprimer cette session ? Toutes les données seront perdues.')) {
-                        localStorage.removeItem('yankee_hells_user_id');
-                        if (userIdInput) userIdInput.value = '';
-                        if (mainCard) mainCard.style.display = 'none';
-                        if (statusCard) statusCard.style.display = 'none';
-                        if (pairingCodeDisplay) pairingCodeDisplay.classList.add('hidden');
-                        if (qrDisplay) qrDisplay.innerHTML = '<i class="fas fa-qrcode"></i><p>Cliquez pour générer</p>';
-                        showResult('Session supprimée', 'success');
-                        updateStatus('offline', 'Session inactive');
-                    }
-                });
-            }
-            
-            // ========== SWITCH METHODES ==========
-            const methodBtns = document.querySelectorAll('.method-btn');
-            const methodContents = document.querySelectorAll('.method-content');
-            
-            methodBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const method = btn.dataset.method;
-                    methodBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    methodContents.forEach(c => c.classList.remove('active'));
-                    const target = document.getElementById(method + 'Method');
-                    if (target) target.classList.add('active');
-                });
-            });
-            
-            // ========== SIMULATION CONNEXION (pour test) ==========
-            // Si une session existe, on simule un statut "en ligne" après 2 sec
-            if (savedId && userIdInput && userIdInput.value) {
-                setTimeout(() => {
-                    updateStatus('connected', 'Connecté ✅');
-                    if (sessionUserSpan) sessionUserSpan.textContent = userIdInput.value.substring(0, 15) + '...';
-                    if (sessionTimeSpan) sessionTimeSpan.textContent = new Date().toLocaleString();
-                }, 2000);
-            }
-            
-            console.log('✅ YANKEE HELLS prêt !');
-        });
-    </script>
-</body>
-</html>
+                    setTimeout(function() {
+                        if (loadingOverlay) loading
