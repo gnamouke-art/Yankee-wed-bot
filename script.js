@@ -1,5 +1,5 @@
 // Configuration
-const API_URL = 'https://votre-bot.katabump.com'; // À remplacer par l'URL de ton bot sur Katabump
+const API_URL = 'http://51.75.118.18:20040'; // À remplacer par l'URL de ton bot sur Katabump
 let currentUserId = null;
 let statusInterval = null;
 let ws = null;
