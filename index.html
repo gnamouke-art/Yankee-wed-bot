@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>YANKEE HELLS - Connecter votre bot WhatsApp</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -43,21 +43,20 @@
                 </button>
             </div>
             
-            <div class="saved-id" id="savedIdAlert" style="display: none;">
+            <div id="savedIdAlert" class="saved-id" style="display: none;">
                 <i class="fas fa-check-circle"></i>
                 <span>ID sauvegardé dans votre navigateur</span>
             </div>
         </div>
 
-        <!-- Main Card -->
-        <div class="card" id="mainCard" style="display: none;">
+        <!-- Main Card (connexion) -->
+        <div id="mainCard" class="card" style="display: none;">
             <div class="card-header">
                 <i class="fas fa-bolt"></i>
                 <h2>Connectez votre Bot WhatsApp</h2>
                 <p>Association sécurisée • 24h/24 7j/7 sur le cloud</p>
             </div>
 
-            <!-- Method Selection -->
             <div class="method-selector">
                 <button class="method-btn active" data-method="pairing">
                     <i class="fas fa-key"></i> Code d'appariement
@@ -67,7 +66,6 @@
                 </button>
             </div>
 
-            <!-- Pairing Method -->
             <div id="pairingMethod" class="method-content active">
                 <div class="input-group">
                     <label><i class="fas fa-phone-alt"></i> Numéro de téléphone</label>
@@ -87,7 +85,6 @@
                 </div>
             </div>
 
-            <!-- QR Method -->
             <div id="qrMethod" class="method-content">
                 <div class="qr-container">
                     <div id="qrCodeDisplay" class="qr-placeholder">
@@ -101,8 +98,8 @@
             </div>
         </div>
 
-        <!-- Session Status -->
-        <div class="status-card" id="statusCard" style="display: none;">
+        <!-- Status Card -->
+        <div id="statusCard" class="status-card" style="display: none;">
             <div class="status-header">
                 <i class="fas fa-circle" id="statusDot"></i>
                 <span id="statusText">Session inactive</span>
@@ -124,21 +121,218 @@
 
         <!-- Footer -->
         <div class="footer-links">
-            <a href="https://whatsapp.com/channel/0029Vb7xYNO84OmK7L02eq3v" class="link-item"><i class="fab fa-whatsapp"></i> Chaine WA</a>
-            <a href="https://chat.whatsapp.com/EtlBgSAAHLwFuYtssyz06F" class="link-item"><i class="fab fa-whatsapp"></i> Groupe WA</a>
-            <a href="https://github.com/gnamouke-art" class="link-item"><i class="fab fa-github"></i> GitHub</a>
+            <a href="https://whatsapp.com/channel/0029Vb7xYNO84OmK7L02eq3v" target="_blank" class="link-item">
+                <i class="fab fa-whatsapp"></i> Chaine WA
+            </a>
+            <a href="https://chat.whatsapp.com/EtlBgSAAHLwFuYtssyz06F" target="_blank" class="link-item">
+                <i class="fab fa-whatsapp"></i> Groupe WA
+            </a>
+            <a href="https://github.com/gnamouke-art" target="_blank" class="link-item">
+                <i class="fab fa-github"></i> GitHub
+            </a>
         </div>
         <div class="footer">
             <p>© 2024 YANKEE HELLS - MASERATI MD</p>
         </div>
     </div>
 
-    <!-- Loading Overlay -->
     <div id="loadingOverlay" class="loading-overlay hidden">
         <div class="loader"></div>
         <p>Connexion en cours...</p>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // SCRIPT COMPLET INTÉGRÉ (pas besoin de fichier externe)
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ Script YANKEE HELLS chargé');
+            
+            // ========== ÉLÉMENTS ==========
+            const userIdInput = document.getElementById('userId');
+            const generateBtn = document.getElementById('generateIdBtn');
+            const savedAlert = document.getElementById('savedIdAlert');
+            const mainCard = document.getElementById('mainCard');
+            const statusCard = document.getElementById('statusCard');
+            const phoneInput = document.getElementById('phoneNumber');
+            const pairBtn = document.getElementById('pairBtn');
+            const qrBtn = document.getElementById('generateQrBtn');
+            const pairingResult = document.getElementById('pairingResult');
+            const pairingCodeDisplay = document.getElementById('pairingCodeDisplay');
+            const pairingCodeValue = document.getElementById('pairingCodeValue');
+            const copyCodeBtn = document.getElementById('copyPairingCode');
+            const qrDisplay = document.getElementById('qrCodeDisplay');
+            const deleteSessionBtn = document.getElementById('deleteSessionBtn');
+            const statusDot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+            const sessionUserSpan = document.getElementById('sessionUser');
+            const sessionTimeSpan = document.getElementById('sessionTime');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            
+            // ========== FONCTIONS ==========
+            function generateUserId() {
+                return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
+            }
+            
+            function showLoading(show) {
+                if (loadingOverlay) {
+                    if (show) loadingOverlay.classList.remove('hidden');
+                    else loadingOverlay.classList.add('hidden');
+                }
+            }
+            
+            function showResult(message, type) {
+                if (pairingResult) {
+                    pairingResult.innerHTML = '<i class="fas ' + (type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle') + '"></i> ' + message;
+                    pairingResult.classList.remove('hidden');
+                    setTimeout(() => pairingResult.classList.add('hidden'), 4000);
+                }
+            }
+            
+            function displayPairingCode(code) {
+                if (pairingCodeValue) pairingCodeValue.textContent = code;
+                if (pairingCodeDisplay) pairingCodeDisplay.classList.remove('hidden');
+            }
+            
+            function displayQR(qrData) {
+                if (qrDisplay) {
+                    qrDisplay.innerHTML = '<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(qrData) + '" style="width:200px;height:200px">';
+                }
+            }
+            
+            function updateStatus(status, message) {
+                if (statusDot && statusText) {
+                    if (status === 'connected') {
+                        statusDot.style.color = '#2ecc71';
+                        statusText.textContent = message || 'Connecté ✅';
+                    } else if (status === 'connecting') {
+                        statusDot.style.color = '#f39c12';
+                        statusText.textContent = message || 'Connexion...';
+                    } else {
+                        statusDot.style.color = '#e74c3c';
+                        statusText.textContent = message || 'Hors ligne';
+                    }
+                }
+            }
+            
+            // ========== GÉNÉRER ID ==========
+            if (generateBtn) {
+                generateBtn.addEventListener('click', function() {
+                    const newId = generateUserId();
+                    if (userIdInput) userIdInput.value = newId;
+                    localStorage.setItem('yankee_hells_user_id', newId);
+                    
+                    if (savedAlert) {
+                        savedAlert.style.display = 'flex';
+                        setTimeout(() => savedAlert.style.display = 'none', 3000);
+                    }
+                    
+                    if (mainCard) mainCard.style.display = 'block';
+                    if (statusCard) statusCard.style.display = 'block';
+                    
+                    showResult('ID généré ! Connectez votre bot ci-dessous', 'success');
+                });
+            }
+            
+            // ========== CHARGER ID EXISTANT ==========
+            const savedId = localStorage.getItem('yankee_hells_user_id');
+            if (savedId && userIdInput) {
+                userIdInput.value = savedId;
+                if (mainCard) mainCard.style.display = 'block';
+                if (statusCard) statusCard.style.display = 'block';
+            }
+            
+            // ========== PAIRING CODE ==========
+            if (pairBtn) {
+                pairBtn.addEventListener('click', function() {
+                    let phone = phoneInput ? phoneInput.value.trim() : '';
+                    if (!phone) {
+                        showResult('Entrez votre numéro de téléphone', 'error');
+                        return;
+                    }
+                    
+                    phone = phone.replace(/[^0-9]/g, '');
+                    if (!phone.startsWith('225')) phone = '225' + phone;
+                    
+                    showLoading(true);
+                    
+                    // Simulation d'appel API (à remplacer par ton vrai endpoint)
+                    setTimeout(() => {
+                        showLoading(false);
+                        const code = Math.floor(100000 + Math.random() * 900000);
+                        displayPairingCode(code);
+                        updateStatus('connecting', 'Code envoyé');
+                        showResult('Code d\'appariement généré !', 'success');
+                    }, 1500);
+                });
+            }
+            
+            // ========== QR CODE ==========
+            if (qrBtn) {
+                qrBtn.addEventListener('click', function() {
+                    showLoading(true);
+                    
+                    setTimeout(() => {
+                        showLoading(false);
+                        displayQR('YANKEE_HELLS_BOT_' + Date.now());
+                        updateStatus('waiting_qr', 'Scannez le QR code');
+                        showResult('QR Code généré ! Scannez avec WhatsApp', 'success');
+                    }, 1000);
+                });
+            }
+            
+            // ========== COPIER CODE ==========
+            if (copyCodeBtn) {
+                copyCodeBtn.addEventListener('click', function() {
+                    const code = pairingCodeValue ? pairingCodeValue.textContent : '';
+                    if (code) {
+                        navigator.clipboard.writeText(code);
+                        showResult('Code copié !', 'success');
+                    }
+                });
+            }
+            
+            // ========== SUPPRIMER SESSION ==========
+            if (deleteSessionBtn) {
+                deleteSessionBtn.addEventListener('click', function() {
+                    if (confirm('⚠️ Supprimer cette session ? Toutes les données seront perdues.')) {
+                        localStorage.removeItem('yankee_hells_user_id');
+                        if (userIdInput) userIdInput.value = '';
+                        if (mainCard) mainCard.style.display = 'none';
+                        if (statusCard) statusCard.style.display = 'none';
+                        if (pairingCodeDisplay) pairingCodeDisplay.classList.add('hidden');
+                        if (qrDisplay) qrDisplay.innerHTML = '<i class="fas fa-qrcode"></i><p>Cliquez pour générer</p>';
+                        showResult('Session supprimée', 'success');
+                        updateStatus('offline', 'Session inactive');
+                    }
+                });
+            }
+            
+            // ========== SWITCH METHODES ==========
+            const methodBtns = document.querySelectorAll('.method-btn');
+            const methodContents = document.querySelectorAll('.method-content');
+            
+            methodBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const method = btn.dataset.method;
+                    methodBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    methodContents.forEach(c => c.classList.remove('active'));
+                    const target = document.getElementById(method + 'Method');
+                    if (target) target.classList.add('active');
+                });
+            });
+            
+            // ========== SIMULATION CONNEXION (pour test) ==========
+            // Si une session existe, on simule un statut "en ligne" après 2 sec
+            if (savedId && userIdInput && userIdInput.value) {
+                setTimeout(() => {
+                    updateStatus('connected', 'Connecté ✅');
+                    if (sessionUserSpan) sessionUserSpan.textContent = userIdInput.value.substring(0, 15) + '...';
+                    if (sessionTimeSpan) sessionTimeSpan.textContent = new Date().toLocaleString();
+                }, 2000);
+            }
+            
+            console.log('✅ YANKEE HELLS prêt !');
+        });
+    </script>
 </body>
 </html>
